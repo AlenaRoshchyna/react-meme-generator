@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './App.module.css';
 
 export default function App() {
   const [topText, setTopText] = useState('');
   const [bottomText, setBottomText] = useState('');
-  const [memeTemplate, setMemeTemplate] = useState('');
+  const [memeTemplate, setMemeTemplate] = useState('awesome-awkward');
   const [memeGenerate, setMemeGenerate] = useState(
-    `https://api.memegen.link/images/${memeTemplate}/${topText}/${bottomText}.jpg`,
+    `https://api.memegen.link/images/${memeTemplate}/Hello/World.jpg`,
   );
 
   return (
     <div className={styles.mainContainer}>
+      <img alt="Meme" src={memeGenerate} />
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -35,14 +36,23 @@ export default function App() {
           />
         </label>
         <label>
-          Meme template
-          <select name="memeTemplate">
-            <option value="banana">Kiwi</option>
-            <option value="banana">Banana</option>
-            <option value="orange">Orange</option>
-            <option value="apple">Apple</option>
-          </select>
+          Meme Template
+          <input
+            value={memeTemplate}
+            onChange={(event) => {
+              setMemeTemplate(event.currentTarget.value);
+            }}
+          />
         </label>
+        <button
+          onClick={() =>
+            setMemeGenerate(
+              `https://api.memegen.link/images/${memeTemplate}/${topText}/${bottomText}.jpg`,
+            )
+          }
+        >
+          Generate
+        </button>
       </form>
     </div>
   );
