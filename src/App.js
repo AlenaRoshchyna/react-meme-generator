@@ -1,16 +1,32 @@
-import { useState } from 'react';
-import styles from './App.module.css';
+import React, { useState } from 'react';
+
+// import styles from './App.module.css';
 
 export default function App() {
   const [topText, setTopText] = useState('');
   const [bottomText, setBottomText] = useState('');
-  const [memeTemplate, setMemeTemplate] = useState('awesome-awkward');
+  const [memeTemplate, setMemeTemplate] = useState('');
   const [memeGenerate, setMemeGenerate] = useState(
-    `https://api.memegen.link/images/${memeTemplate}/Hello/World.jpg`,
+    `https://api.memegen.link/images/made/Deal with it/Naaaa dankee.jpg`,
   );
+  let urlChange = `https://api.memegen.link/images/${memeTemplate}.jpg`;
+  function generateUrl(event) {
+    event.preventDefault();
+
+    if (topText) {
+      urlChange = `https://api.memegen.link/images/${memeTemplate}/${topText}.jpg`;
+    }
+    if (bottomText) {
+      urlChange = `https://api.memegen.link/images/${memeTemplate}/_/${bottomText}.jpg`;
+    }
+    if (topText && bottomText) {
+      urlChange = `https://api.memegen.link/images/${memeTemplate}/${topText}/${bottomText}.jpg`;
+    }
+    setMemeGenerate(urlChange);
+  }
 
   return (
-    <div className={styles.mainContainer}>
+    <div>
       <img alt="Meme" src={memeGenerate} />
       <form
         onSubmit={(event) => {
@@ -44,15 +60,7 @@ export default function App() {
             }}
           />
         </label>
-        <button
-          onClick={() =>
-            setMemeGenerate(
-              `https://api.memegen.link/images/${memeTemplate}/${topText}/${bottomText}.jpg`,
-            )
-          }
-        >
-          Generate
-        </button>
+        <button onClick={generateUrl}>Generate</button>
       </form>
     </div>
   );
