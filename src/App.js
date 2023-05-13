@@ -1,3 +1,4 @@
+import saveAs from 'file-saver';
 import React, { useState } from 'react';
 
 // import styles from './App.module.css';
@@ -9,7 +10,9 @@ export default function App() {
   const [memeGenerate, setMemeGenerate] = useState(
     `https://api.memegen.link/images/made/Deal with it/Naaaa dankee.jpg`,
   );
+
   let urlChange = `https://api.memegen.link/images/${memeTemplate}.jpg`;
+
   function generateUrl(event) {
     event.preventDefault();
 
@@ -24,6 +27,11 @@ export default function App() {
     }
     setMemeGenerate(urlChange);
   }
+
+  const handleClick = () => {
+    const url = memeGenerate;
+    saveAs(url, memeTemplate);
+  };
 
   return (
     <div>
@@ -61,6 +69,9 @@ export default function App() {
           />
         </label>
         <button onClick={generateUrl}>Generate</button>
+        <button className="download" onClick={handleClick}>
+          Download
+        </button>
       </form>
     </div>
   );
